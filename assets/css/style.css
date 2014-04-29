@@ -38,10 +38,6 @@ body {
     padding-right: 20px;
 }
 
-.custom-input-search-button {
-    border-left: 0px;
-}
-
 .custom-navbar {
   text-shadow: 0 -1px 0 hsla(0, 0%, 0%, .15);
   background-color: hsla(208, 78%, 34%, 1);
@@ -95,68 +91,6 @@ body {
 
 .custom-section-gray {
     background-color: hsla(240, 100%, 98%, 1);
-}
-
-.custom-boxrow {
-    margin: 50px 0px 0px 0px;
-}
-
-.custom-boxrow a {
-    color: hsla(0, 0%, 100%, 1);
-    text-decoration: none;
-}
-
-.custom-box-trans {
-    background-color: hsla(0, 0%, 93%, 0.4);
-    padding: 11px !important;
-}
-
-.custom-box-darkest {
-    background-color: hsla(208, 56%, 47%, 1);
-}
-
-.custom-box-darkest:hover {
-    background-color: hsla(208, 58%, 54%, 1);
-}
-
-.custom-box-darker {
-    background-color: hsla(208, 56%, 53%, 1);
-}
-
-.custom-box-darker:hover {
-    background-color: hsla(208, 65%, 59%, 1);
-}
-
-.custom-box-dark {
-    background-color: hsla(207, 70%, 60%, 1);
-}
-
-.custom-box-dark:hover {
-    background-color: hsla(207, 83%, 66%, 1);
-}
-
-.custom-box-light {
-    background-color: hsla(200, 83%, 66%, 1);
-}
-
-.custom-box-light:hover {
-    background-color: hsla(200, 100%, 72%, 1);
-}
-
-.custom-box {
-    padding: 40px 50px 40px 50px;
-    float: left;
-    display: block;
-    font-size: 14pt;
-    font-weight: bold;
-}
-
-.custom-box span {
-    margin-left: 10px;
-}
-
-.custom-box:hover span {
-    text-decoration: underline;
 }
 
 body, h1, h2, h3, .h1, .h2, .h3 {
