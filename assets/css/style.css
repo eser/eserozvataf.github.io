@@ -142,7 +142,7 @@ h4, h5, h6, .h4, .h5, .h6 {
 
 .xrow, .xtext, .xlist {
     font-size: 14pt;
-    font-family: 'Tinos', 'Georgia', times;
+    /* font-family: 'Tinos', 'Georgia', times; */
     color: hsla(0, 0%, 50%, 1);
     line-height: 150%;
 }
