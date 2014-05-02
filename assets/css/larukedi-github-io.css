@@ -8142,12 +8142,21 @@ td.visible-print {
   content: "\f196";
 }
 
+/*
 @font-face {
-  font-family: 'Tinos';
+  font-family: 'Roboto Slab';
   font-style: normal;
   font-weight: 400;
-  src: local('Tinos'), url('../fonts/tinos.ttf') format('truetype');
+  src: local('Roboto Slab Regular'), local('RobotoSlab-Regular'), url('../fonts/roboto-slab-regular.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Roboto Slab';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Slab Bold'), local('RobotoSlab-Bold'), url('../fonts/roboto-slab-bold.ttf') format('truetype');
+}
+*/
 
 @font-face {
   font-family: 'Lato';
@@ -8163,6 +8172,28 @@ td.visible-print {
   src: local('Lato Bold'), local('Lato-Bold'), url('../fonts/lato-bold.ttf') format('truetype');
 }
 
+/*
+@font-face {
+  font-family: 'Tinos';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Tinos'), url('../fonts/tinos.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Josefin Slab Light';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Josefin Slab Light'), local('Josefin-Slab-Light'), url('../fonts/josefinslab-light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Josefin Slab Bold';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Josefin Slab Bold'), local('Josefin-Slab-Bold'), url('../fonts/josefinslab-bold.ttf') format('truetype');
+}
+*/
 html, body, #page {
     width: 100%;
     height: 100%;
@@ -8177,26 +8208,9 @@ body {
 #page {
 }
 
-#splash {
-    overflow: hidden;
-    height: auto;
-    background-image: url('../images/background.png');
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    color: hsla(0, 0%, 0%, 1);
-}
-
 .xanchor {
     padding-top: 51px;
     margin-top: -51px;
-}
-
-.custom-jumbotron {
-    margin-top: 30px;
-    background-color: hsla(0, 0%, 93%, 0.4);
-    border-radius: 0px !important;
 }
 
 .custom-navbar-brand  {
@@ -8258,9 +8272,12 @@ body {
     background-color: hsla(240, 100%, 98%, 1);
 }
 
-body, h1, h2, h3, .h1, .h2, .h3 {
-    font-family: 'Lato', 'Helvetica', 'Arial', sans-serif !important;
-    /* font-family: 'Tinos', 'Georgia', times !important; */
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
+}
+
+body {
+    font-family: 'Lato', 'Helvetica', 'Arial', sans-serif;
 }
 
 h3, .h3 {
