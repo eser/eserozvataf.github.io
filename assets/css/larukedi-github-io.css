@@ -8393,12 +8393,6 @@ h4, h5, h6, .h4, .h5, .h6 {
     font-weight: bold;
 }
 
-.line {
-    border-top: 1px dashed hsla(0, 0%, 88%, 1);
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 @media print {
     body {
         zoom: 70% !important;
