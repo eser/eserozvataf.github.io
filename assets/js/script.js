@@ -1,19 +1,21 @@
-$(function() {
-    $('#search-form').submit(function() {
-        alert('It\'s currently disabled. Please try search on google instead.');
-        return false;
-    });
-    
-    $('.xscroll-link').click(function() {
-        var that = $(this);
-        
-        $('html, body').animate(
-            { scrollTop: $(this.hash).offset().top },
-            500
-        );
-        
-        // return false;
-    });
+$l.ready(function() {
+	var bodyJqueryWrapper = $(document.body);
+
+    $l.dom.setEvent(
+        $l(['.xscroll-link']),
+        'click',
+        function(ev, elem) {
+            var targetElement = $l(elem.getAttribute('href'));
+            var targetPosition = targetElement.getBoundingClientRect();
+
+            bodyJqueryWrapper.animate(
+                { scrollTop: targetPosition.top + document.body.scrollTop },
+                500
+            );
+
+            return false;
+        }
+    );
 
 	$('#p-filter a').click(function() {
         var that = $(this);
