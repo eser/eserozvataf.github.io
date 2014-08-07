@@ -14,9 +14,9 @@
 </head>
 <body id="body">
 
-    <div class="navbar navbar-inverse navbar-fixed-top custom-navbar print-hidden" role="banner">
+    <div class="navbar navbar-inverse navbar-static-top custom-navbar print-hidden" role="banner">
         <div class="container">
-            <nav>
+            <header>
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -27,45 +27,39 @@
                 </div>
 
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#about-general" class="xscroll-link">General</a></li>
-                                <li class="divider"></li>
-                                <li class="dropdown-header">Background</li>
-                                <li><a href="#about-education" class="xscroll-link">Education</a></li>
-                                <li><a href="#about-workexperience" class="xscroll-link">Work Experience</a></li>
-                                <li><a href="#about-certificates" class="xscroll-link">Certificates</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#about-interests" class="xscroll-link">Interests</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#projects" class="xscroll-link">Projects</a></li>
-                    </ul>
-
                     <div class="col-xs-3 navbar-right">
                         <ul class="nav navbar-nav pull-right">
                             <li><a href="index.tr.html" class="xscroll-link">Türkçe</a></li>
+                            <li><a href="#" class="sidebar-toggle-link"><i class="fa fa-bars"></i></a></li>
                         </ul>
-
-                    <!--
-                        <form id="search-form" action="#" method="GET" class="navbar-form" role="search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" />
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default custom-input-search-button"><i class="glyphicon glyphicon-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    -->
                     </div>
                 </div>
-            </nav>
+            </header>
         </div>
     </div>
 
     <div id="page">
+
+        <section class="jumbotron">
+            <div class="container">
+                <div class="user-info">
+                    <div class="braces pull-left">{</div>
+                    <div class="braces pull-right">}</div>
+                    <h1 class="user-name">Eser Özvataf</h1>
+                    <h2 class="user-position">it consultant, software architect, full-stack developer</h2>
+
+                    <div class="social">
+                        <ul>
+                            <li><a href="http://eser.ozvataf.com/"><i class="fa fa-globe"></i> web site</a></li>
+                            <li><a href="https://eserozvataf.wordpress.com/"><i class="fa fa-pencil-square"></i> blog</a></li>
+                            <li><a href="https://www.linkedin.com/in/eserozvataf"><i class="fa fa-linkedin-square"></i> linkedin</a></li>
+                            <li><a href="http://github.com/larukedi"><i class="fa fa-github-square"></i> github</a></li>
+                            <li><a href="http://twitter.com/eserozvataf"><i class="fa fa-twitter-square"></i> twitter</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section id="about" class="xanchor">
             <div class="custom-section">
@@ -337,7 +331,7 @@
         </section>
 
         <section id="projects" class="xanchor">
-            <div class="custom-section custom-section-gray">
+            <div class="custom-section"> <!-- custom-section-gray -->
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12">
@@ -831,7 +825,7 @@
                 <div class="row custom-footer-inner">
                     <div class="col-xs-8 text-muted">
                         Copyright &copy; 2014 Eser 'Laroux' Özvataf. &nbsp; All Rights Reserved.<br />
-                        <em>Some parts of the page may not function since it's still under development.</em>
+                        <em>Thanks to <a href="http://sametaydemir.com/">Samet Aydemir</a></em>
                     </div>
                     <div class="col-xs-4 text-right">
                         <i class="glyphicon glyphicon-link"></i>
@@ -840,6 +834,26 @@
                 </div>
             </div>
         </footer>
+    </div>
+
+    <div id="sidebar" class="print-hidden">
+        <a href="#body" class="head xscroll-link">Back to Top</a>
+
+        <a href="#about" class="title xscroll-link">About</a>
+        <ul>
+            <li><a href="#about-general" class="xscroll-link">General</a></li>
+            <li><a href="#about-education" class="xscroll-link">Education</a></li>
+            <li><a href="#about-workexperience" class="xscroll-link">Work Experience</a></li>
+            <li><a href="#about-certificates" class="xscroll-link">Certificates</a></li>
+            <li><a href="#about-interests" class="xscroll-link">Interests</a></li>
+        </ul>
+
+        <a href="#projects" class="title xscroll-link">Projects</a>
+        <ul>
+            <li><a href="#projects-tailormade" class="xscroll-link">Tailor Made</a></li>
+            <li><a href="#projects-myown" class="xscroll-link">My Own</a></li>
+            <li><a href="#projects-contributing" class="xscroll-link">Contributing</a></li>
+        </ul>
     </div>
 
     <script src="assets/js/larukedi-github-io.min.js"></script>
