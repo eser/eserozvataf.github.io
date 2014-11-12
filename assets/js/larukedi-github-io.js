@@ -11488,10 +11488,26 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
     // anim
     laroux.anim = {
-        // { object, property, from, to, step }
+        fx: {
+            interpolate: function (source, target, shift) {
+                return (source + (target - source) * shift);
+            },
+
+            easing: function (pos) {
+                return (-Math.cos(pos * Math.PI) / 2) + 0.5;
+            }
+        },
+
+        // { object, property, from, to, time, unit }
         set: function(newanim) {
-            if (typeof newanim.from != 'undefined' && newanim.from !== null) {
-                newanim.object[newanim.property] = newanim.from;
+            newanim.startTime = Date.now();
+
+            if (typeof newanim.unit == 'undefined' || newanim.unit === null) {
+                newanim.unit = '';
+            }
+
+            if (typeof newanim.from == 'undefined' || newanim.from === null) {
+                newanim.from = newanim.object[newanim.property];
             }
 
             // if (typeof newanim.id == 'undefined') {
@@ -11499,6 +11515,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
             // }
 
             laroux.timers.set({
+                // id: newanim.id,
                 timeout: 1,
                 reset: true,
                 ontick: laroux.anim.ontick,
@@ -11507,31 +11524,23 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
         },
 
         ontick: function(newanim) {
-            var current = newanim.object[newanim.property];
-            var diff = newanim.to - current;
+            var now = Date.now(),
+                finishT = newanim.startTime + newanim.time,
+                shift = (now > finishT) ? 1 : (now - newanim.startTime) / newanim.time;
 
-            if (diff === 0) {
+            newanim.object[newanim.property] = laroux.anim.fx.interpolate(
+                newanim.from,
+                newanim.to,
+                laroux.anim.fx.easing(shift)
+            ) + newanim.unit;
+
+            if (now > finishT) {
                 return false;
-            }
-
-            var step = (typeof newanim.step != 'undefined') ? newanim.step : 1;
-
-            if (diff > 0) {
-                newanim.object[newanim.property] += step;
-                if (newanim.object[newanim.property] > newanim.to) {
-                    newanim.object[newanim.property] = newanim.to;
-                }
-            } else {
-                newanim.object[newanim.property] -= step;
-                if (newanim.object[newanim.property] < newanim.to) {
-                    newanim.object[newanim.property] = newanim.to;
-                }
             }
         }
     };
 
-})(this.laroux);
-;(function(laroux) {
+})(this.laroux);;(function(laroux) {
     "use strict";
 
     // cookies
@@ -11582,50 +11591,29 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
             return style.getPropertyValue(styleName);
         },
 
-        setProperty: function(element, styleName, value) {
+        setProperty: function(element, properties, value) {
             var elements = laroux.helpers.getAsArray(element);
-            var newStyleName = laroux.helpers.camelCase(styleName);
 
-            for (var i = elements.length - 1;i >= 0; i--) {
-                elements[i].style[newStyleName] = value;
+            if (typeof properties == 'string') {
+                var oldProperties = properties;
+                properties = {};
+                properties[oldProperties] = value;
             }
-        },
 
-        setTransitions: function(element, transitions) {
-            var elements = laroux.helpers.getAsArray(element);
-
-            for (var styleName in transitions) {
-                if (!transitions.hasOwnProperty(styleName)) {
+            for (var styleName in properties) {
+                if (!properties.hasOwnProperty(styleName)) {
                     continue;
                 }
 
-                var value = transitions[styleName];
                 var newStyleName = laroux.helpers.camelCase(styleName);
 
                 for (var i = elements.length - 1;i >= 0; i--) {
-                    var style = getComputedStyle(elements[i]);
-                    var currentTransitions = style.getPropertyValue('transition');
-
-                    if (currentTransitions !== null) {
-                        var currentTransitionsArray = currentTransitions.split(',');
-                        for (var j = 0; j < currentTransitionsArray.length; j++) {
-                            if (currentTransitionsArray[j].trim().localeCompare(styleName) === 0) {
-                                delete currentTransitionsArray[j];
-                            }
-                        }
-
-                        if (value !== null) {
-                            elements[i].style.transition = currentTransitionsArray.join(', ') + ', ' + styleName + ' ' + value;
-                        } else {
-                            elements[i].style.transition = currentTransitionsArray.join(', ');
-                        }
-                    } else if (value !== null) {
-                        elements[i].style.transition = styleName + ' ' + value;
-                    }
+                    elements[i].style[newStyleName] = properties[styleName];
                 }
             }
         },
 
+        defaultTransition: '2s ease',
         transition: function(element, transitions, callback) {
             var elements = laroux.helpers.getAsArray(element);
 
@@ -11636,7 +11624,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
                 var value = (transitions[styleName] instanceof Array) ? transitions[styleName] : [ transitions[styleName] ];
                 if (typeof value[1] == 'undefined') {
-                    value[1] = '2s ease';
+                    value[1] = laroux.css.defaultTransition;
                 }
 
                 var newStyleName = laroux.helpers.camelCase(styleName);
@@ -11649,17 +11637,17 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
                         var currentTransitionsArray = currentTransitions.split(',');
                         for (var j = 0; j < currentTransitionsArray.length; j++) {
                             if (currentTransitionsArray[j].trim().localeCompare(styleName) === 0) {
-                                delete currentTransitionsArray[j];
+                                currentTransitionsArray.splice(j, 1);
                             }
                         }
 
                         if (value[1] !== null) {
-                            elements[i].style.transition = currentTransitionsArray.join(', ') + ', ' + styleName + ' ' + value[1];
-                        } else {
-                            elements[i].style.transition = currentTransitionsArray.join(', ');
+                            currentTransitionsArray.push(styleName + ' ' + value[1]);
                         }
+
+                        elements[i].style.transition = currentTransitionsArray.join(', ');
                     } else if (value[1] !== null) {
-                        elements[i].style.transition = styleName + ' ' + value;
+                        elements[i].style.transition = styleName + ' ' + value[1];
                     }
 
                     elements[i].style[newStyleName] = value[0];
@@ -11734,14 +11722,14 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
         monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         getDateString: function(date) {
-            var now = new Date();
+            var now = Date.now();
 
             var leadingDate = ('0' + date.getDate()).substr(-2, 2);
             var monthName = laroux.date.monthsShort[date.getMonth()];
             var leadingYear = ('' + date.getFullYear()).substr(2, 2);
 
             // timespan
-            var timespan = now.getTime() - date.getTime();
+            var timespan = now - date.getTime();
             var future;
             if (timespan < 0) {
                 future = true;
@@ -12588,29 +12576,6 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 ;(function(laroux) {
     "use strict";
 
-    // storage
-    laroux.storage = {
-        data: null,
-
-        init: function() {
-            if (typeof parent != 'undefined' && typeof parent.frames.hidden != 'undefined') {
-                if (typeof parent.frames.hidden.storage == 'undefined') {
-                    parent.frames.hidden.storage = new laroux.stack();
-                }
-
-                laroux.storage.data = parent.frames.hidden.storage;
-                return;
-            }
-
-            // default with noframe
-            laroux.storage.data = new laroux.stack();
-        }
-    };
-
-})(this.laroux);
-;(function(laroux) {
-    "use strict";
-
     // templates
     laroux.templates = {
         engine: null,
@@ -12723,25 +12688,27 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
         delegates: [],
         list: [],
 
-        set: function(condition, fnc, obj) {
-            for (var key in condition) {
-                if (!condition.hasOwnProperty(key)) {
+        set: function(condition, fnc, state) {
+            var conditions = laroux.helpers.getAsArray(condition);
+
+            for (var key in conditions) {
+                if (!conditions.hasOwnProperty(key)) {
                     continue;
                 }
 
-                if (laroux.triggers.list.indexOf(condition[key]) == -1) {
-                    laroux.triggers.list.push(condition[key]);
+                if (laroux.triggers.list.indexOf(conditions[key]) == -1) {
+                    laroux.triggers.list.push(conditions[key]);
                 }
             }
 
             laroux.triggers.delegates.push({
-                condition: condition,
+                conditions: conditions,
                 fnc: fnc,
-                obj: obj
+                state: state
             });
         },
 
-        ontrigger: function(triggerName, eventArgs) {
+        ontrigger: function(triggerName, args) {
             var eventIdx = laroux.triggers.list.indexOf(triggerName);
             if (eventIdx != -1) {
                 laroux.triggers.list.splice(eventIdx, 1);
@@ -12756,12 +12723,12 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
                 var count = 0;
                 var keyObj = laroux.triggers.delegates[key];
 
-                for (var conditionKey in keyObj.condition) {
-                    if (!keyObj.condition.hasOwnProperty(conditionKey)) {
+                for (var conditionKey in keyObj.conditions) {
+                    if (!keyObj.conditions.hasOwnProperty(conditionKey)) {
                         continue;
                     }
 
-                    var conditionObj = keyObj.condition[conditionKey];
+                    var conditionObj = keyObj.conditions[conditionKey];
 
                     if (laroux.triggers.list.indexOf(conditionObj) != -1) {
                         count++;
@@ -12770,7 +12737,12 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
                 }
 
                 if (count === 0) {
-                    keyObj.fnc(keyObj.obj, eventArgs);
+                    keyObj.fnc(
+                        {
+                            state: keyObj.state,
+                            args: laroux.helpers.getAsArray(args)
+                        }
+                    );
                     removeKeys.unshift(key);
                 }
             }
@@ -12783,7 +12755,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
                 laroux.triggers.delegates.splice(removeKeys[key2], 1);
             }
 
-            console.log('trigger name: ' + triggerName);
+            // console.log('trigger name: ' + triggerName);
         }
     };
 
