@@ -20,8 +20,6 @@ module.exports = function(grunt) {
                     separator: ';'
                 },
                 src: [
-                    'js/jquery-2.1.1.js',
-                    'js/bootstrap.js',
                     'js/laroux.js',
                     'js/script.js'
                 ],
