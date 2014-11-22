@@ -2513,7 +2513,7 @@
     var sidebarElement = $l('#sidebar');
     var sidebarStatus = false;
 
-    $l.ui.scrollView.set('.xsmalltag');
+    $l.ui.scrollView.set($l['.xsmalltag']);
 
     $l.dom.setEvent(
         $l(['.xscroll-link']),
@@ -2593,7 +2593,7 @@
 
             $l.dom.remove(elem.parentElement);
 
-            $l.ui.scrollView.onscroll();
+            $l.ui.scrollView.reveal();
         }
     );
 
