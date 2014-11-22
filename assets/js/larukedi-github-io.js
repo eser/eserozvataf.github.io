@@ -2513,16 +2513,14 @@
     var sidebarElement = $l('#sidebar');
     var sidebarStatus = false;
 
-    $l.ui.scrollView.set($l['.xsmalltag']);
+    $l.ui.scrollView.set($l(['.xsmalltag']));
 
     $l.dom.setEvent(
         $l(['.xscroll-link']),
         'click',
         function(ev, elem) {
             var targetElement = $l(elem.getAttribute('href'));
-
-            var targetPosition = targetElement.getBoundingClientRect().top +
-                ((document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop);
+            var targetPosition = $l.css.top(targetElement);
 
             $l.anim.set({
                 object:   document.body,
@@ -2570,11 +2568,11 @@
                 var p_property = pItem.getAttribute('rel');
 
                 if (p_property == p_filter && p_filter != 'all') {
-                    $l.css.setProperty(pItem, { background: '#F0F0F0' });
+                    $l.css.setProperty(pItem, {background: '#F0F0F0'});
                 } else if (p_filter != 'all') {
-                    $l.css.setProperty(pItem, { background: 'none' });
+                    $l.css.setProperty(pItem, {background: 'none'});
                 } else {
-                    $l.css.setProperty(pItem, { background: 'none' });
+                    $l.css.setProperty(pItem, {background: 'none'});
                 }
             });
 
